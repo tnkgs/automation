@@ -1,0 +1,76 @@
+[tool.poetry]
+name = "automation"
+version = "0.1.0"
+description = ""
+authors = ["tnkgs <kento@kt-one.jp>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+notebook = "^6.5.4"
+bs4 = "^0.0.1"
+requests = "^2.31.0"
+twitter-api-client = "^0.10.11"
+google-ads = "^21.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+flake8 = "^6.0.0"
+mypy = "^1.4.1"
+black = "^23.7.0"
+isort = "^5.12.0"
+pyproject-flake8 = "^6.0.0"
+flake8-isort = "^6.0.0"
+flake8-bugbear = "^23.7.10"
+flake8-builtins = "^2.1.0"
+flake8-eradicate = "^1.5.0"
+flake8-unused-arguments = "^0.0.13"
+flake8-pytest-style = "^1.7.2"
+pep8-naming = "^0.13.3"
+google-ads-stubs = "^14.1.0"
+pandas = "^2.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+# エラー時のメッセージを詳細表示
+show_error_context = true
+# エラー発生箇所の行数/列数を表示
+show_column_numbers = true
+# import 先のチェックを行わない (デフォルトだとサードパーティーライブラリまでチェックする)
+ignore_missing_imports = true
+# デフォルト引数に None を取る場合型アノテーションに Optional 必須
+no_implicit_optional = true
+# 冗長なキャストに警告
+warn_redundant_casts = true
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+profile = "black"
+line_length = 79
+# 各ライブラリ群の説明を追記する
+import_heading_stdlib      = "Standard Library"
+import_heading_thirdparty  = "Third Party Library"
+import_heading_firstparty  = "First Party Library"
+import_heading_localfolder = "Local Library"
+# from third_party import lib1, lib2...のような記述時の改行方法の設定(https://pycqa.github.io/isort/docs/configuration/multi_line_output_modes.html)
+multi_line_output = 3
+# 最後の要素の末尾に","を付けるようにする設定
+include_trailing_comma = true
+
+[tool.flake8]
+max-line-length = 79
+# E203: ":"の前の空白を入れないルール
+# W503: 演算子の前に改行しないようにするルール
+extend-ignore = ["E203", "W503", "I005", "E800"]
+exclude = [".venv", ".git", "__pycache__",]
+max-complexity = 10
+
+[tool.pyright]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+venvPath = ".venv"
+venv = true

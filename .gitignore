@@ -1,0 +1,6 @@
+.vscode/settings.json
+.venv/
+tmp/
+.mypy_cache/
+notebooks/data/
+__pycache__
