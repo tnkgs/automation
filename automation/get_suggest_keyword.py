@@ -1,7 +1,9 @@
 # Standard Library
 from typing import List, TypedDict
+from xml.etree import ElementTree
 
 # Third Party Library
+import requests
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.v14 import (
     GenerateKeywordIdeasRequest,
@@ -10,6 +12,38 @@ from google.ads.googleads.v14 import (
     KeywordPlanNetworkEnum,
     KeywordSeed,
 )
+
+
+def get_google_suggests(keyword: str):
+    headers = {
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100"
+    }
+    res = requests.get(
+        "https://www.google.com/complete/search",
+        headers=headers,
+        params={
+            "q": keyword,
+            "ie": "utf_8",
+            "oe": "utf_8",
+            "output": "toolbar",
+            "hl": "ja",
+        },
+    )
+    # XMLデータをパースする
+    res_xml: ElementTree.Element = ElementTree.fromstring(res.text)
+
+    keyword_nodes = res_xml.findall("CompleteSuggestion/suggestion")
+
+    # サジェストのキーワードリスト
+    suggest_keywords = list(map(lambda x: x.attrib["data"], keyword_nodes))
+    return suggest_keywords
+
+
+# keyword = "あなたのキーワード"
+# suggests = get_google_suggests(keyword)
+# for suggest in suggests:
+#     print(suggest)
 
 
 class SuggestKeyword(TypedDict):
